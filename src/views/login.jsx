@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Pressable from '../components/pressable';
+import { collection, getDocs } from 'firebase/firestore';
 
 
 const Login = () => {
