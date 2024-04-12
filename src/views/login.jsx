@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Pressable from '../components/pressable';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from '../services/firebaseConf';
 
 
 const Login = () => {
@@ -11,15 +12,33 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        
+        const usuarios = collection(db, "usuarios");
+        const q = query(usuarios, where("email", "==", email));
+
+        const dados = await getDocs(q);
+
+        dados.forEach(dado => {
+            console.log(dado.data());
+
+            if(dado.data().password == password){
+                alert('Logado com sucesso!');
+                navigation.navigate('Chat');
+            }else{
+                alert('Senha incorreta');
+            }
+        });
+        //alert(dados);
+        //console.log(dados)
         // Verificar se o e-mail termina com "@ifpr"
-        if (email.endsWith('@ifpr.com.br')) {
+        /*if (email.endsWith('@ifpr.com.br')) {
             // Implemente a lógica de autenticação aqui
             // Se a autenticação for bem-sucedida, navegue para a tela de chat
             navigation.navigate('Chat');
         } else {
             alert('Por favor, use um e-mail do IFPR para fazer login.');
-        }
+        }*/
     };
 
     return (
