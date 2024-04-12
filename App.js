@@ -6,6 +6,8 @@ import Cadastro from './src/views/cadastro';
 import Login from './src/views/login';
 import Chat from './src/views/chat';
 
+import {app, db} from './src/services/firebaseConf';
+
 export default function App() {
   
   const Stack = createNativeStackNavigator();
